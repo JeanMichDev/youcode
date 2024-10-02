@@ -8,6 +8,7 @@ import { Inter } from "next/font/google";
 import { PropsWithChildren } from "react";
 import { Providers } from "./Providers";
 import "./globals.css";
+import { LoginFormDialog } from "@/features/auth/LoginFormDialog";
 
 const fontSans = Inter({ subsets: ["latin"], variable: "--font-sans" });
 
@@ -30,7 +31,9 @@ export default function RootLayout({ children }: PropsWithChildren) {
           <Providers>
             <div className="relative flex min-h-screen flex-col">
               <Header />
+              <LoginFormDialog />
               <div className="flex-1">{children}</div>
+
               <Footer />
             </div>
             <TailwindIndicator />
