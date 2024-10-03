@@ -33,7 +33,6 @@ export default function RootLayout({ children }: PropsWithChildren) {
               <Header />
               <LoginFormDialog />
               <div className="flex-1">{children}</div>
-
               <Footer />
             </div>
             <TailwindIndicator />
