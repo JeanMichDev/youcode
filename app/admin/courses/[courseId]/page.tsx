@@ -23,7 +23,7 @@ import Link from "next/link";
 import { PaginationButton } from "@/features/pagination/paginationButton";
 import { buttonVariants } from "@/components/ui/button";
 
-type LessonPageProps = {
+type CoursePageProps = {
   params: {
     courseId: string;
   };
@@ -33,7 +33,7 @@ type LessonPageProps = {
 export default async function CourseId({
   params,
   searchParams,
-}: LessonPageProps) {
+}: CoursePageProps) {
   const page = Number(searchParams.page ?? 1);
 
   const session = await getRequiredAuthSession();
@@ -129,7 +129,7 @@ export default async function CourseId({
               Edit
             </Link>
             <Link
-              href={`/admin/courses/${params.courseId}/edit`}
+              href={`/admin/courses/${params.courseId}/lessons`}
               className={buttonVariants({ variant: "outline" })}
             >
               Lesson Edit
