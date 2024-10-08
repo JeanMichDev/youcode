@@ -8,9 +8,7 @@ export default function Home() {
         <CardHeader>
           <CardTitle>Card title</CardTitle>
         </CardHeader>
-        <CardContent>
-          <Button>bisous</Button>
-        </CardContent>
+        <CardContent></CardContent>
       </Card>
     </div>
   );

@@ -29,7 +29,6 @@ export default async function CoursesPage() {
       creatorId: session.user.id,
     },
   });
-  const keysOfCourse = courses[0] ? Object.keys(courses[0]) : [];
 
   return (
     <Layout>

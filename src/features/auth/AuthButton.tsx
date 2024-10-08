@@ -38,7 +38,7 @@ export const AuthButton = () => {
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <Button variant="default" size="sm">
-                  <Avatar className={"mr-2 size-6"}>
+                  <Avatar className="mr-2 size-6">
                     <AvatarFallback>{session.user?.name?.[0]}</AvatarFallback>
                     {session.user?.image && (
                       <AvatarImage
