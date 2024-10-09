@@ -25,7 +25,7 @@ export const LogInButton = ({
       onClick={() => toggleLoginForm()}
       disabled={mutationLogIn.isPending}
     >
-      {mutationLogIn.isPending ? <Loader /> : <LogIn />}
+      {mutationLogIn.isPending ? <Loader /> : <LogIn className="mr-2" />}
       Log in
     </Button>
   );

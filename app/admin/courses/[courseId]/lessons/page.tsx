@@ -11,6 +11,7 @@ import Link from "next/link";
 import { ArrowBigLeft } from "lucide-react";
 import { LessonItem } from "./lessonMenu";
 import { notFound } from "next/navigation";
+import { GoBackItem } from "@/features/pagination/GoBackItem";
 
 type LessonPageProps = {
   params: {
@@ -34,9 +35,7 @@ export default async function LessonPage({ params }: LessonPageProps) {
   return (
     <Layout>
       <LayoutHeader>
-        <Link href={url}>
-          <ArrowBigLeft size={24} />
-        </Link>
+        <GoBackItem url="/admin/courses" />
         <LayoutTitle>Lesson . {courses.name} </LayoutTitle>
       </LayoutHeader>
       <LayoutContent>
