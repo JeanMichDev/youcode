@@ -1,7 +1,9 @@
-import { Layout } from "@/components/layout/layout";
+import { Layout, LayoutContent } from "@/components/layout/layout";
 import { getUniqueCourse } from "./uniqueCourse.query";
 import { PublicLessonsItem } from "./PublicLessonsItem";
 import { PublicCourseItem } from "./PublicCourseItem";
+import { GoBackItem } from "@/features/pagination/GoBackItem";
+import { notFound } from "next/navigation";
 
 type CoursePage = {
   params: {
@@ -13,14 +15,15 @@ export default async function PublicCourseIdPage({ params }: CoursePage) {
   const courseId = params.courseId;
   const uniqueCourse = await getUniqueCourse(courseId);
 
-  if (!uniqueCourse) {
-    return <div>Course not found</div>;
-  }
+  if (!uniqueCourse) notFound();
 
   return (
-    <Layout className="flex flex-row gap-4 ">
-      <PublicCourseItem className="flex-[2]" uniqueCourse={uniqueCourse} />
-      <PublicLessonsItem className="flex-1" lessons={uniqueCourse.lessons} />
+    <Layout>
+      <GoBackItem url="/courses" />
+      <LayoutContent className="flex flex-row gap-4 ">
+        <PublicCourseItem className="flex-[2]" uniqueCourse={uniqueCourse} />
+        <PublicLessonsItem className="flex-1" lessons={uniqueCourse.lessons} />
+      </LayoutContent>
     </Layout>
   );
 }

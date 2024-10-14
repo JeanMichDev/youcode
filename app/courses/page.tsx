@@ -10,6 +10,7 @@ import { getAllCourses } from "./course.query";
 
 export default async function PublicCoursePage() {
   const courses = await getAllCourses();
+
   return (
     <Layout>
       <GoBackItem url="/" />
@@ -17,9 +18,10 @@ export default async function PublicCoursePage() {
         <LayoutTitle>All Courses</LayoutTitle>
       </LayoutHeader>
       <LayoutContent className="grid grid-cols-1 gap-4 sm:grid-cols-2 ">
-        {courses.map((course) => (
-          <CourseItem course={course} key={course.id} />
-        ))}
+        {courses.map((course) => {
+          const url = `/courses/${course.id}`;
+          return <CourseItem course={course} key={course.id} url={url} />;
+        })}
       </LayoutContent>
     </Layout>
   );

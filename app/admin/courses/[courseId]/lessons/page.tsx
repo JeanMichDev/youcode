@@ -9,7 +9,7 @@ import { getRequiredAuthSession } from "@/lib/auth";
 import { getCourseLesson } from "./lesson.query";
 import Link from "next/link";
 import { ArrowBigLeft } from "lucide-react";
-import { LessonItem } from "./lessonMenu";
+import { LessonItem } from "./AdminLessonMenu";
 import { notFound } from "next/navigation";
 import { GoBackItem } from "@/features/pagination/GoBackItem";
 

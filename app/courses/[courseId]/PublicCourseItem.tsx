@@ -2,6 +2,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@radix-ui/react-avatar";
 import { Typography } from "@/components/ui/Typography";
 import { UniqueCourse } from "./uniqueCourse.query";
+import { MarkdownProse } from "@/features/mdx/MarkdownProse";
 
 type CourseItemProps = {
   uniqueCourse: NonNullable<UniqueCourse>;
@@ -46,9 +47,7 @@ export const PublicCourseItem = ({
       </CardContent>
       <CardContent>
         <Typography variant="h3">Presentation</Typography>
-        <Typography variant="p" className="rounded-md bg-background px-4 py-2">
-          {uniqueCourse.presentation}
-        </Typography>
+        <MarkdownProse markdown={uniqueCourse.presentation} />
       </CardContent>
     </Card>
   );

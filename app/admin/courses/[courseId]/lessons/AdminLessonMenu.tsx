@@ -1,10 +1,10 @@
 import { Badge } from "@/components/ui/badge";
 import { Typography } from "@/components/ui/Typography";
-import { Lesson } from "@prisma/client";
 import React from "react";
+import { AdminLessonItemType } from "./lesson.query";
 
 export type LessonItemProps = {
-  lesson: Lesson;
+  lesson: AdminLessonItemType;
 };
 
 export const LessonItem = (props: LessonItemProps) => {

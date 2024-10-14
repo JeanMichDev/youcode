@@ -1,17 +1,16 @@
 import React from "react";
 import { Card, CardTitle, CardContent } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@radix-ui/react-avatar";
-import { Course, User } from "@prisma/client";
 import { CoursesCard } from "./course.query";
 import Link from "next/link";
 import { Typography } from "@/components/ui/Typography";
 
 export type CourseCardProps = {
   course: CoursesCard;
+  url: string;
 };
 
 export const CourseItem = (props: CourseCardProps) => {
-  const url = `/courses/${props.course.id}`;
   return (
     <Card>
       <CardContent className="mt-4 flex flex-row gap-4">
@@ -26,7 +25,7 @@ export const CourseItem = (props: CourseCardProps) => {
           )}
         </Avatar>
         <div>
-          <Typography as={Link} href={url}>
+          <Typography as={Link} href={props.url}>
             {props.course.name}
           </Typography>
           <div className="mt-2 flex flex-row gap-2">

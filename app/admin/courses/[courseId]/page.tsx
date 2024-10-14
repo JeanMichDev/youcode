@@ -1,5 +1,5 @@
 import { getRequiredAuthSession } from "@/lib/auth";
-import { getCourse } from "./course.query";
+import { getCourse } from "./admin-course.query";
 import {
   Layout,
   LayoutActions,

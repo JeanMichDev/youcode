@@ -27,9 +27,10 @@ export default async function MyCoursesPage() {
         <LayoutTitle>My Courses</LayoutTitle>
       </LayoutHeader>
       <LayoutContent className="grid grid-cols-1 gap-4 sm:grid-cols-2 ">
-        {myCourses.map((course) => (
-          <CourseItem course={course} key={course.id} />
-        ))}
+        {myCourses.map((course) => {
+          const url = `/mycourses/${course.id}`;
+          return <CourseItem course={course} key={course.id} url={url} />;
+        })}
       </LayoutContent>
     </Layout>
   );
