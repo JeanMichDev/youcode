@@ -1,5 +1,5 @@
 import { getRequiredAuthSession } from "@/lib/auth";
-import { getCourse } from "./admin-course.query";
+import { getAdminCourse } from "./admin-course.query";
 import {
   Layout,
   LayoutActions,
@@ -17,11 +17,11 @@ import {
 } from "@/components/ui/table";
 import { Typography } from "@/components/ui/Typography";
 import { Avatar, AvatarImage, AvatarFallback } from "@radix-ui/react-avatar";
-import { ArrowBigLeft } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import Link from "next/link";
 import { PaginationButton } from "@/features/pagination/paginationButton";
 import { buttonVariants } from "@/components/ui/button";
+import { GoBackItem } from "@/features/pagination/GoBackItem";
 
 type CoursePageProps = {
   params: {
@@ -37,7 +37,7 @@ export default async function CourseId({
   const page = Number(searchParams.page ?? 1);
 
   const session = await getRequiredAuthSession();
-  const course = await getCourse({
+  const course = await getAdminCourse({
     courseId: params.courseId,
     userId: session.user.id,
     userPage: page,
@@ -46,9 +46,7 @@ export default async function CourseId({
   return (
     <Layout>
       <LayoutHeader>
-        <Link href="/admin/courses">
-          <ArrowBigLeft size={24} />
-        </Link>
+        <GoBackItem url="/admin/courses" />
         <LayoutTitle>{course.name}</LayoutTitle>
       </LayoutHeader>
       <LayoutContent className="flex flex-col gap-4 lg:flex-row">

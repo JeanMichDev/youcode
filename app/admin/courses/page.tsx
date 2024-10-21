@@ -56,7 +56,11 @@ export default async function CoursesPage() {
                         <Avatar>
                           <AvatarFallback>{course.name[0]}</AvatarFallback>
                           {course.image && (
-                            <AvatarImage src={course.image} alt={course.name} />
+                            <AvatarImage
+                              src={course.image}
+                              alt={course.name}
+                              className="size-12"
+                            />
                           )}
                         </Avatar>
                       </TableCell>
@@ -64,7 +68,7 @@ export default async function CoursesPage() {
                         <Typography
                           as={Link}
                           variant="large"
-                          href={`/admin/courses/${course.id}`}
+                          href={`/admin/courses/${course.id}?page=0`}
                         >
                           {course.name}
                         </Typography>
