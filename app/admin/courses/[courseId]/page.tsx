@@ -22,6 +22,7 @@ import Link from "next/link";
 import { PaginationButton } from "@/features/pagination/paginationButton";
 import { buttonVariants } from "@/components/ui/button";
 import { GoBackItem } from "@/features/pagination/GoBackItem";
+import { Breadcrump } from "@/components/ui/Breadcrump";
 
 type CoursePageProps = {
   params: {
@@ -34,7 +35,7 @@ export default async function CourseId({
   params,
   searchParams,
 }: CoursePageProps) {
-  const page = Number(searchParams.page ?? 1);
+  const page = Number(searchParams.page ?? 0);
 
   const session = await getRequiredAuthSession();
   const course = await getAdminCourse({

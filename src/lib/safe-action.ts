@@ -3,12 +3,19 @@ import { getAuthSession } from "./auth";
 
 export class ServerError extends Error {}
 
-export const action = createSafeActionClient({
+export const actionClient = createSafeActionClient({
   handleServerError: (error) => {
-    // .
+    if (error instanceof ServerError) {
+      return {
+        serverError: error.message,
+      };
+    }
+    return {
+      serverError: "An unexpected error occurred",
+    };
   },
 });
-export const authentificatedAction = action.use(async ({ next }) => {
+export const authentificatedAction = actionClient.use(async ({ next }) => {
   const session = await getAuthSession();
 
   const user = session?.user;

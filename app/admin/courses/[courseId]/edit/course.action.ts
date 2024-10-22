@@ -12,6 +12,7 @@ const CourseActionEdtitProps = z.object({
 export const courseActionEdit = authentificatedAction
   .schema(CourseActionEdtitProps)
   .action(async ({ parsedInput, ctx }) => {
+    console.log(parsedInput, ctx);
     await prisma.course.update({
       where: {
         id: parsedInput.courseId,

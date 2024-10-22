@@ -14,28 +14,46 @@ import { CourseFormSchema } from "./course.schema";
 import { Input } from "@/components/ui/input";
 import { SubmitButton } from "@/components/form/SubmitButton";
 import { courseActionEdit } from "./course.action";
+import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 
 export type CourseFormProps = {
   defaultValue?: CourseFormSchema & { id: string };
 };
 
-export const CourseForm = (props: CourseFormProps) => {
+export const CourseForm = ({ defaultValue }: CourseFormProps) => {
   const form = useZodForm({
     schema: CourseFormSchema,
-    defaultValues: props.defaultValue,
+    defaultValues: defaultValue,
   });
+  const router = useRouter();
   return (
     <Form
       form={form}
       onSubmit={async (values) => {
         console.log(values);
 
-        if (props.defaultValue?.id) {
+        if (defaultValue?.id) {
           console.log("update course");
-          const { data, serverError } = await courseActionEdit({
-            courseId: props.defaultValue?.id,
+
+          const result = await courseActionEdit({
+            courseId: defaultValue?.id,
             data: values,
           });
+          console.log("server error : ", result?.serverError);
+          console.log("data : ", result?.data);
+          if (result?.data) {
+            toast.success(result?.data);
+            router.push(`/admin/courses/${defaultValue?.id}`);
+            router.refresh();
+            return;
+          }
+
+          toast.error("An error occurred", {
+            description: String(result?.serverError),
+          });
+
+          return;
         } else {
           // create
         }

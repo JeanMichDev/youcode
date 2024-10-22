@@ -15,12 +15,13 @@ import {
   TableRow,
   TableHeader,
 } from "@/components/ui/table";
-import { ArrowBigLeft } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 
 import Link from "next/link";
 import { Avatar, AvatarImage, AvatarFallback } from "@radix-ui/react-avatar";
 import { Typography } from "@/components/ui/Typography";
+import { GoBackItem } from "@/features/pagination/GoBackItem";
+import { Breadcrump } from "@/components/ui/Breadcrump";
 
 export default async function CoursesPage() {
   const session = await getRequiredAuthSession();
@@ -33,9 +34,7 @@ export default async function CoursesPage() {
   return (
     <Layout>
       <LayoutHeader>
-        <Link href="/admin">
-          <ArrowBigLeft size={24} />
-        </Link>
+        <GoBackItem url="/admin" />
         <LayoutTitle>My Courses</LayoutTitle>
       </LayoutHeader>
       <LayoutContent>
