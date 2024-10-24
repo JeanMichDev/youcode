@@ -13,7 +13,7 @@ import {
 import { CourseFormSchema } from "./course.schema";
 import { Input } from "@/components/ui/input";
 import { SubmitButton } from "@/components/form/SubmitButton";
-import { courseActionEdit } from "./course.action";
+import { courseActionEdit, courseActionCreate } from "./course.action";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 
@@ -27,36 +27,32 @@ export const CourseForm = ({ defaultValue }: CourseFormProps) => {
     defaultValues: defaultValue,
   });
   const router = useRouter();
+
   return (
     <Form
       form={form}
       onSubmit={async (values) => {
         console.log(values);
 
-        if (defaultValue?.id) {
-          console.log("update course");
+        const result = defaultValue?.id
+          ? await courseActionEdit({
+              courseId: defaultValue.id,
+              data: values,
+            })
+          : await courseActionCreate(values);
 
-          const result = await courseActionEdit({
-            courseId: defaultValue?.id,
-            data: values,
-          });
-          console.log("server error : ", result?.serverError);
-          console.log("data : ", result?.data);
-          if (result?.data) {
-            toast.success(result?.data);
-            router.push(`/admin/courses/${defaultValue?.id}`);
-            router.refresh();
-            return;
-          }
-
-          toast.error("An error occurred", {
-            description: String(result?.serverError),
-          });
-
+        if (result?.data) {
+          toast.success(result.data.message);
+          router.push(`/admin/courses/${result.data.course.id}`);
+          router.refresh();
           return;
-        } else {
-          // create
         }
+
+        toast.error("An error occurred", {
+          description: String(result?.serverError),
+        });
+
+        return;
       }}
     >
       <FormField

@@ -36,7 +36,6 @@ export default async function CourseId({
   searchParams,
 }: CoursePageProps) {
   const page = Number(searchParams.page ?? 0);
-
   const session = await getRequiredAuthSession();
   const course = await getAdminCourse({
     courseId: params.courseId,

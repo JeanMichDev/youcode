@@ -13,12 +13,32 @@ export const courseActionEdit = authentificatedAction
   .schema(CourseActionEdtitProps)
   .action(async ({ parsedInput, ctx }) => {
     console.log(parsedInput, ctx);
-    await prisma.course.update({
+    const course = await prisma.course.update({
       where: {
         id: parsedInput.courseId,
         creatorId: ctx.userId,
       },
       data: parsedInput.data,
     });
-    return "Course updated successfully";
+    return {
+      message: "Course updated successfully",
+      course,
+    };
+  });
+
+export const courseActionCreate = authentificatedAction
+  .schema(CourseFormSchema)
+  .action(async ({ parsedInput, ctx }) => {
+    console.log(parsedInput, ctx);
+    const course = await prisma.course.create({
+      data: {
+        ...parsedInput,
+        creatorId: ctx.userId,
+        createdAt: new Date().toISOString(),
+      },
+    });
+    return {
+      message: "Course created successfully",
+      course,
+    };
   });

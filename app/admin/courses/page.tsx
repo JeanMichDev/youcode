@@ -21,7 +21,7 @@ import Link from "next/link";
 import { Avatar, AvatarImage, AvatarFallback } from "@radix-ui/react-avatar";
 import { Typography } from "@/components/ui/Typography";
 import { GoBackItem } from "@/features/pagination/GoBackItem";
-import { Breadcrump } from "@/components/ui/Breadcrump";
+import { buttonVariants } from "@/components/ui/button";
 
 export default async function CoursesPage() {
   const session = await getRequiredAuthSession();
@@ -35,7 +35,19 @@ export default async function CoursesPage() {
     <Layout>
       <LayoutHeader>
         <GoBackItem url="/admin" />
-        <LayoutTitle>My Courses</LayoutTitle>
+        <div className="flex w-full justify-between">
+          <LayoutTitle>My Courses</LayoutTitle>
+          <LayoutActions>
+            <Link
+              href="/admin/courses/new"
+              className={buttonVariants({
+                variant: "secondary",
+              })}
+            >
+              Create new course
+            </Link>
+          </LayoutActions>
+        </div>
       </LayoutHeader>
       <LayoutContent>
         <Card>
@@ -67,7 +79,7 @@ export default async function CoursesPage() {
                         <Typography
                           as={Link}
                           variant="large"
-                          href={`/admin/courses/${course.id}?page=0`}
+                          href={`/admin/courses/${course.id}`}
                         >
                           {course.name}
                         </Typography>
