@@ -15,6 +15,7 @@ export const getAdminLesson = async (lessonId: string, userId: string) => {
       content: true,
       state: true,
       courseId: true,
+      rank: true,
     },
   });
   return lesson;

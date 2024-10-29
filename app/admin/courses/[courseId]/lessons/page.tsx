@@ -7,7 +7,7 @@ import {
 } from "@/components/layout/layout";
 import { getRequiredAuthSession } from "@/lib/auth";
 import { getCourseLesson } from "./lesson.query";
-import { LessonItem } from "./LessonItem";
+import { LessonItem } from "./AdminLessonItem";
 import { notFound, redirect } from "next/navigation";
 import { GoBackItem } from "@/features/pagination/GoBackItem";
 import { Typography } from "@/components/ui/Typography";
@@ -17,6 +17,7 @@ import { Sub } from "@radix-ui/react-dropdown-menu";
 import { SubmitButton } from "@/components/form/SubmitButton";
 import { lessonActionCreate } from "./[lessonId]/lesson.action";
 import { prisma } from "@/lib/prisma";
+import { AdminLessonSortable } from "./AdminLessonSortable";
 
 type LessonPageProps = {
   params: {
@@ -41,7 +42,7 @@ export default async function LessonPage({ params }: LessonPageProps) {
     <Layout>
       <LayoutHeader>
         <GoBackItem url={urlBack} />
-        <LayoutTitle>Lesson . {courses.name} </LayoutTitle>
+        <LayoutTitle>Course : {courses.name} </LayoutTitle>
       </LayoutHeader>
       <LayoutContent>
         <Card>
@@ -49,9 +50,7 @@ export default async function LessonPage({ params }: LessonPageProps) {
             <CardTitle></CardTitle>
           </CardHeader>
           <CardContent className="flex flex-col gap-2">
-            {courses.lessons.map((lesson) => {
-              return <LessonItem key={lesson.id} lesson={lesson} />;
-            })}
+            <AdminLessonSortable items={courses.lessons} />
           </CardContent>
           <CardContent>
             <form>
@@ -70,7 +69,6 @@ export default async function LessonPage({ params }: LessonPageProps) {
                       creatorId: session.user.id,
                     },
                   });
-
                   const lesson = await prisma.lesson.create({
                     data: {
                       name: "Draft Lesson",
