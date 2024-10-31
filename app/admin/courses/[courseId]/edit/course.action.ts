@@ -33,7 +33,7 @@ export const courseActionCreate = authentificatedAction
     const course = await prisma.course.create({
       data: {
         ...parsedInput,
-        creatorId: ctx.userId,
+        creatorId: String(ctx.userId),
         createdAt: new Date().toISOString(),
       },
     });

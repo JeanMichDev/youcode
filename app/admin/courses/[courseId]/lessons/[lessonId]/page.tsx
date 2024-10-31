@@ -9,6 +9,7 @@ import {
 } from "@/components/layout/layout";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { GoBackItem } from "@/features/pagination/GoBackItem";
+import { AdminLessonMarkdown } from "./content/AdminLessonMarkdown";
 
 type AdminLessonPageProps = {
   params: {
@@ -33,10 +34,19 @@ export default async function AdminLessonPage({
         <GoBackItem url={urlBack} />
         <LayoutTitle>Edit Lesson</LayoutTitle>
       </LayoutHeader>
-      <LayoutContent>
-        <Card>
+      <LayoutContent className="flex flex-row gap-2">
+        <Card className="flex-1">
           <CardContent>
             <AdminLessonForm defaultValue={lesson} />
+          </CardContent>
+        </Card>
+        <Card className="flex-[3]">
+          <CardContent>
+            Content
+            <AdminLessonMarkdown
+              markdown={lesson.content}
+              lessonId={lesson.id}
+            />
           </CardContent>
         </Card>
       </LayoutContent>

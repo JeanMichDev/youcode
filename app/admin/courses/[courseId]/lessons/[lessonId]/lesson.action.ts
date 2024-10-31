@@ -1,14 +1,13 @@
 "use server";
 import { authentificatedAction, ServerError } from "@/lib/safe-action";
 import { prisma } from "@/lib/prisma";
-import { z } from "zod";
-import { LessonFormSchema } from "./lesson.schema";
+import {
+  LessonActionEditContentSchema,
+  LessonActionEdtitSchema,
+  LessonFormSchema,
+  SaveLessonMoveSchema,
+} from "./lesson.schema";
 import { getMiddleRank } from "@/lib/getMiddleRank";
-
-const LessonActionEdtitSchema = z.object({
-  lessonId: z.string(),
-  data: LessonFormSchema,
-});
 
 export const lessonActionEdit = authentificatedAction
   .schema(LessonActionEdtitSchema)
@@ -23,6 +22,27 @@ export const lessonActionEdit = authentificatedAction
       },
       data: {
         ...parsedInput.data,
+      },
+    });
+    return {
+      message: "Lesson updated successfully",
+      lesson,
+    };
+  });
+
+export const lessonActionEditContent = authentificatedAction
+  .schema(LessonActionEditContentSchema)
+  .action(async ({ parsedInput, ctx }) => {
+    console.log(parsedInput, ctx);
+    const lesson = await prisma.lesson.update({
+      where: {
+        id: parsedInput.lessonId,
+        course: {
+          creatorId: ctx.user.id,
+        },
+      },
+      data: {
+        content: parsedInput.markdown,
       },
     });
     return {
@@ -49,12 +69,6 @@ export const lessonActionCreate = authentificatedAction
       lesson,
     };
   });
-
-const SaveLessonMoveSchema = z.object({
-  upItemRank: z.string().optional(),
-  downItemRank: z.string().optional(),
-  lessonId: z.string(),
-});
 
 export const saveLessonMove = authentificatedAction
   .schema(SaveLessonMoveSchema)

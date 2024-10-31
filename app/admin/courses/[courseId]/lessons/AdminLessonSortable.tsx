@@ -39,6 +39,8 @@ export const AdminLessonSortable = ({
   );
   const router = useRouter();
 
+  //useMutation va nous permettre de pouvoir gérer le cas où la modification est en cours de chargement
+
   const mutation = useMutation({
     mutationFn: async ({
       activeId,

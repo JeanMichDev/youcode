@@ -6,11 +6,12 @@ export class ServerError extends Error {}
 export const actionClient = createSafeActionClient({
   handleServerError: (error) => {
     if (error instanceof ServerError) {
-      return error.message;
+      return { serverError: error.message };
     }
-    return "An unexpected error occurred";
+    return { serverError: "Une erreur inattendue est survenue" };
   },
 });
+
 export const authentificatedAction = actionClient.use(async ({ next }) => {
   const session = await getAuthSession();
 
@@ -21,12 +22,5 @@ export const authentificatedAction = actionClient.use(async ({ next }) => {
     throw new ServerError("You must be logged in to perform this action");
   }
 
-  const result = await next({
-    ctx: {
-      userId,
-      user,
-    },
-  });
-
-  return result;
+  return next({ ctx: { userId: user.id, user } });
 });

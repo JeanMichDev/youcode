@@ -22,8 +22,7 @@ import Link from "next/link";
 import { PaginationButton } from "@/features/pagination/paginationButton";
 import { buttonVariants } from "@/components/ui/button";
 import { GoBackItem } from "@/features/pagination/GoBackItem";
-import { Breadcrump } from "@/components/ui/Breadcrump";
-
+import { ToggleActiveUserOnCourse } from "./ToggleActiveUserOnCourse";
 type CoursePageProps = {
   params: {
     courseId: string;
@@ -90,9 +89,14 @@ export default async function CourseId({
                         </Typography>
                       </TableCell>
                       <TableCell>
-                        {user.canceled ? "Cancel" : "Active"}
+                        {user.canceled ? "Canceled" : "Active"}
                       </TableCell>
-                      <TableCell>Action</TableCell>
+                      <TableCell>
+                        <ToggleActiveUserOnCourse
+                          courseId={params.courseId}
+                          user={user}
+                        />
+                      </TableCell>
                     </TableRow>
                   );
                 })}

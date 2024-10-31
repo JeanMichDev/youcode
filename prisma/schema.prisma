@@ -61,7 +61,7 @@ model User {
   updatedAt     DateTime  @updatedAt
   accounts      Account[]
   sessions      Session[]
-    ownedCourses   CourseOnUser[]
+  ownedCourses   CourseOnUser[]
   createdCourses Course[]
   lessons        LessonOnUser[]
 
