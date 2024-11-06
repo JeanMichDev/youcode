@@ -62,7 +62,7 @@ export default async function CoursesPage() {
               <TableBody>
                 {courses.map((course) => {
                   return (
-                    <TableRow>
+                    <TableRow key={course.id}>
                       <TableCell>
                         <Avatar>
                           <AvatarFallback>{course.name[0]}</AvatarFallback>

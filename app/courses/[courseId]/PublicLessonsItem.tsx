@@ -8,8 +8,6 @@ type LessonsItemProps = {
 };
 
 export const PublicLessonsItem = ({ lessons, className }: LessonsItemProps) => {
-  console.log(lessons);
-
   return (
     <Card className={className}>
       <CardContent>

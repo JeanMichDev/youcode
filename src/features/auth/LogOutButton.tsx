@@ -15,7 +15,6 @@ export const LogOutButton = () => {
     <Button
       variant="destructive"
       onClick={() => {
-        console.log("mutationLogOut", mutationLogOut);
         mutationLogOut.mutate();
       }}
       disabled={mutationLogOut.isPending}

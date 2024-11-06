@@ -68,7 +68,6 @@ export const AdminLessonSortable = ({
         const activeItem = prevItems.find((item) => item.id === activeId);
         if (!activeItem) return prevItems;
         activeItem.rank = result.data as string;
-        console.log("activeItem.rank", result.data);
         return [...prevItems];
       });
     },

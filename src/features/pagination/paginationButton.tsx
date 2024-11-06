@@ -31,7 +31,6 @@ export const PaginationButton = (props: PaginationButtonProps) => {
         variant="outline"
         size="sm"
         onClick={() => {
-          console.log(props.page, props.totalPage);
           if (props.page === props.totalPage) {
             return;
           }

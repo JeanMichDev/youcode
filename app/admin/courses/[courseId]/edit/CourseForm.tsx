@@ -32,8 +32,6 @@ export const CourseForm = ({ defaultValue }: CourseFormProps) => {
     <Form
       form={form}
       onSubmit={async (values) => {
-        console.log(values);
-
         const result = defaultValue?.id
           ? await courseActionEdit({
               courseId: defaultValue.id,

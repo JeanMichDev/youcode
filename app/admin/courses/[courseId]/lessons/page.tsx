@@ -7,15 +7,9 @@ import {
 } from "@/components/layout/layout";
 import { getRequiredAuthSession } from "@/lib/auth";
 import { getCourseLesson } from "./lesson.query";
-import { LessonItem } from "./AdminLessonItem";
 import { notFound, redirect } from "next/navigation";
 import { GoBackItem } from "@/features/pagination/GoBackItem";
-import { Typography } from "@/components/ui/Typography";
-import Link from "next/link";
-import { Form } from "react-hook-form";
-import { Sub } from "@radix-ui/react-dropdown-menu";
 import { SubmitButton } from "@/components/form/SubmitButton";
-import { lessonActionCreate } from "./[lessonId]/lesson.action";
 import { prisma } from "@/lib/prisma";
 import { AdminLessonSortable } from "./AdminLessonSortable";
 

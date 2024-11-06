@@ -12,7 +12,6 @@ import { getMiddleRank } from "@/lib/getMiddleRank";
 export const lessonActionEdit = authentificatedAction
   .schema(LessonActionEdtitSchema)
   .action(async ({ parsedInput, ctx }) => {
-    console.log(parsedInput, ctx);
     const lesson = await prisma.lesson.update({
       where: {
         id: parsedInput.lessonId,
@@ -33,7 +32,6 @@ export const lessonActionEdit = authentificatedAction
 export const lessonActionEditContent = authentificatedAction
   .schema(LessonActionEditContentSchema)
   .action(async ({ parsedInput, ctx }) => {
-    console.log(parsedInput, ctx);
     const lesson = await prisma.lesson.update({
       where: {
         id: parsedInput.lessonId,
@@ -54,7 +52,6 @@ export const lessonActionEditContent = authentificatedAction
 export const lessonActionCreate = authentificatedAction
   .schema(LessonActionEdtitSchema)
   .action(async ({ parsedInput, ctx }) => {
-    console.log(parsedInput, ctx);
     const lesson = await prisma.lesson.create({
       data: {
         ...parsedInput.data,

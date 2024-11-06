@@ -8,9 +8,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
 import { Menu } from "lucide-react";
-import { getRequiredAuthSession } from "@/lib/auth";
-import { prisma } from "@/lib/prisma";
-import { revalidatePath } from "next/cache";
+import { toggleActiveUser } from "./toggleActiveUser";
 
 type ToggleActiveUserOnCourseProps = {
   courseId: string;
@@ -37,29 +35,7 @@ export const ToggleActiveUserOnCourse = ({
             <button
               formAction={async () => {
                 "use server";
-                const session = await getRequiredAuthSession();
-                const courseOnUser = await prisma.courseOnUser.findFirst({
-                  where: {
-                    userId: user.id,
-                    course: {
-                      id: courseId,
-                      creatorId: session.user.id,
-                    },
-                  },
-                });
-                if (!courseOnUser) {
-                  return;
-                }
-                await prisma.courseOnUser.update({
-                  where: {
-                    id: courseOnUser.id,
-                  },
-                  data: {
-                    canceledAt: user.canceled ? null : new Date(),
-                  },
-                });
-
-                revalidatePath(`/admin/courses/${courseId}`);
+                await toggleActiveUser(user, courseId);
               }}
             >
               {user.canceled ? "Set Active" : "Set Canceled"}

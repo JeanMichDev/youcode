@@ -18,7 +18,6 @@ export default async function MyCoursesPage() {
   }
 
   const myCourses = await getAllCourses(session.user.id);
-  console.log("myCourses", myCourses);
 
   return (
     <Layout>

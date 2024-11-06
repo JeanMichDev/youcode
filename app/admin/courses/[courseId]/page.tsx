@@ -66,7 +66,7 @@ export default async function CourseId({
               <TableBody>
                 {course.users?.map((user) => {
                   return (
-                    <TableRow>
+                    <TableRow key={user.id}>
                       <TableCell>
                         <Avatar className="rounded">
                           <AvatarFallback>{user.email}</AvatarFallback>

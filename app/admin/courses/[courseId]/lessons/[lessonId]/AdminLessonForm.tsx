@@ -38,8 +38,6 @@ export const AdminLessonForm = ({ defaultValue }: LessonFormProps) => {
     <Form
       form={form}
       onSubmit={async (values: LessonFormSchema) => {
-        console.log(values);
-
         if (!defaultValue) {
           toast.error("Default value is missing");
           return;
