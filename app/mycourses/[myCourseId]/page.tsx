@@ -26,6 +26,7 @@ export default async function MyCoursePage({ params }: MyCoursePageProps) {
 
   if (!myCourse) notFound();
 
+
   return (
     <Layout>
       <GoBackItem url="/mycourses" />

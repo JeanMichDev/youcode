@@ -9,7 +9,7 @@ type getLessonProps = {
 export const getLesson = async ({ lessonId, userId }: getLessonProps) => {
   //on commence par vérifier si il existe un lien entre l'utilisateur et la leçon
 
-  const lesson = await prisma.lessonOnUser.findUnique({
+  const lessonOnUser = await prisma.lessonOnUser.findUnique({
     where: {
       userId_lessonId: {
         userId,
@@ -17,11 +17,6 @@ export const getLesson = async ({ lessonId, userId }: getLessonProps) => {
       },
     },
   });
-
-  if (!lesson) {
-    console.log("No Lesson on user");
-    return null;
-  }
 
   // si c'est le cas, on récupère les données de la leçon
 
@@ -54,8 +49,6 @@ export const getLesson = async ({ lessonId, userId }: getLessonProps) => {
 export type LessonIdType = NonNullable<
   Prisma.PromiseReturnType<typeof getLesson>
 >;
-
-
 
 //  model Lesson {
 //   id      String      @id @default(cuid())
