@@ -16,10 +16,12 @@ export type CourseDialogProps = PropsWithChildren<{
 export const CourseDialog = (props: CourseDialogProps) => {
   const router = useRouter();
   const pathname = usePathname();
-  console.log(pathname);
 
   //filter(Boolean) removes falsy values from an array
   const isCoursePage = pathname?.split("/").filter(Boolean).length === 2;
+
+  console.log("pathname from Course Dialog", pathname);
+  console.log("is course page open", isCoursePage);
 
   return (
     <Dialog open={isCoursePage} onOpenChange={() => router.back()}>

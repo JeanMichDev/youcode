@@ -1,7 +1,13 @@
 import { prisma } from "@/lib/prisma";
 import { Prisma } from "@prisma/client";
 
-export const getUniqueCourse = async (courseId: string) => {
+export const getUniqueCourse = async ({
+  courseId,
+  userId = "-",
+}: {
+  courseId: string;
+  userId?: string;
+}) => {
   const course = await prisma.course.findUnique({
     where: {
       id: courseId,
@@ -11,6 +17,15 @@ export const getUniqueCourse = async (courseId: string) => {
       image: true,
       name: true,
       presentation: true,
+      users: {
+        where: {
+          userId,
+        },
+        select: {
+          id: true,
+          canceledAt: true,
+        },
+      },
       creator: {
         select: {
           image: true,
@@ -18,18 +33,63 @@ export const getUniqueCourse = async (courseId: string) => {
         },
       },
       lessons: {
+        where: {
+          state: {
+            in: ["PUBLISHED", "PUBLIC"],
+          },
+        },
+        orderBy: {
+          rank: "asc",
+        },
         select: {
           id: true,
           name: true,
+          courseId: true,
+          state: true,
           rank: true,
+          users: {
+            where: {
+              userId,
+            },
+            select: {
+              progress: true,
+            },
+          },
+        },
+      },
+      _count: {
+        select: {
+          lessons: true,
+          users: true,
         },
       },
     },
   });
-  return course;
+  if (!course) {
+    return null;
+  }
+
+  const lessons = course.lessons.map((lesson) => {
+    const progress = lesson.users[0]?.progress ?? "NOT_STARTED";
+    return {
+      ...lesson,
+      progress,
+    };
+  });
+
+  return {
+    ...course,
+    isEnrolled: course.users.length > 0 && !course.users[0].canceledAt,
+    isCanceled: course.users.length > 0 && !!course.users[0].canceledAt,
+    lessons,
+  };
 };
 
-export type UniqueCourse = Prisma.PromiseReturnType<typeof getUniqueCourse>;
+export type CourseType = NonNullable<
+  Prisma.PromiseReturnType<typeof getUniqueCourse>
+>;
+
+export type CourseLessonItem = CourseType["lessons"][0];
 
 // model Lesson {
 //   id      String      @id @default(cuid())

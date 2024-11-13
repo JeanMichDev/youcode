@@ -8,6 +8,7 @@ import { Inter } from "next/font/google";
 import { PropsWithChildren } from "react";
 import { Providers } from "./Providers";
 import "./globals.css";
+import "./code.css";
 import { LoginFormDialog } from "@/features/auth/LoginFormDialog";
 import { ReactNode } from "react";
 

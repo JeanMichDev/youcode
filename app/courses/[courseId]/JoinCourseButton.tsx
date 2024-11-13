@@ -2,14 +2,14 @@ import { Button } from "@/components/ui/button";
 import { getRequiredAuthSession } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { redirect } from "next/navigation";
+import { CourseType } from "./uniqueCourse.query";
+import { revalidatePath } from "next/cache";
 
 type JoinCourseButtonProps = {
-  courseId: string;
+  course: CourseType;
 };
 
-export const JoinCourseButton = async ({ courseId }: JoinCourseButtonProps) => {
-  const session = await getRequiredAuthSession();
-  const userSession = session.user.id;
+export const JoinCourseButton = async ({ course }: JoinCourseButtonProps) => {
   return (
     <form>
       <Button
@@ -17,75 +17,50 @@ export const JoinCourseButton = async ({ courseId }: JoinCourseButtonProps) => {
         size="lg"
         formAction={async () => {
           "use server";
-          // on vérifie que le user n'est pas déjà inscrit
-          const courseOnUser = await prisma.courseOnUser.findUnique({
+          const session = await getRequiredAuthSession();
+
+          const toLinkCourse = await prisma.course.findUnique({
             where: {
-              userId_courseId: {
-                userId: userSession,
-                courseId,
+              id: course.id,
+            },
+            select: {
+              id: true,
+              lessons: {
+                orderBy: {
+                  rank: "asc",
+                },
+                take: 1,
+                select: {
+                  id: true,
+                },
               },
             },
           });
-          if (courseOnUser) {
-            throw new Error("User already joined course");
+
+          if (!toLinkCourse) {
+            return;
           }
+
           await prisma.courseOnUser.create({
             data: {
-              userId: userSession,
-              courseId,
-              createdAt: new Date().toISOString(),
-            },
-          });
-
-          //on récupère les leçons du cours
-
-          const lessons = await prisma.lesson.findMany({
-            where: {
-              id: courseId,
+              userId: session.user.id,
+              courseId: course.id,
             },
             select: {
               id: true,
             },
           });
 
-          // on créer les relations entre l'utilisateur et les leçons du cours
+          const lesson = toLinkCourse.lessons[0];
 
-          await Promise.all(
-            lessons.map(async (lesson) => {
-              await prisma.lessonOnUser.create({
-                data: {
-                  userId: userSession,
-                  lessonId: lesson.id,
-                  progress: "NOT_STARTED",
-                  createdAt: new Date(),
-                },
-              });
-              console.log("Lesson created on user");
-            })
-          );
+          revalidatePath(`/courses/${course.id}`);
 
-          // on récupère la première leçon du cours
-
-          const firstLesson = await prisma.lesson.findFirst({
-            where: {
-              courseId,
-            },
-            select: {
-              id: true,
-            },
-            orderBy: {
-              rank: "asc",
-            },
-          });
-
-          if (firstLesson) {
-            console.log("firstLesson", firstLesson);
-            redirect(`/mycourses/${courseId}/lessons/${firstLesson?.id}`);
-          } else {
-            redirect(`/mycourses/${courseId}`);
+          if (!lesson) {
+            return;
           }
+
+          redirect(`/courses/${course.id}/lessons/${lesson.id}`);
         }}
-        // on redirige l'utilisateur vers la première leçon du cours
       >
         Join Course
       </Button>

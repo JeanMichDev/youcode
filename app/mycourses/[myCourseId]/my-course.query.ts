@@ -7,6 +7,7 @@ export const getMyCourse = async ({
   courseId: string;
   userId?: string;
 }) => {
+  console.log("courseId on getMyCourse:", courseId);
   const course = await prisma.course.findUnique({
     where: {
       id: courseId,
@@ -32,7 +33,7 @@ export const getMyCourse = async ({
           state: true,
           users: {
             where: {
-              userId,
+              userId: userId,
             },
             select: {
               progress: true,

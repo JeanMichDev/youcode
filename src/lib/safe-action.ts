@@ -22,5 +22,5 @@ export const authentificatedAction = actionClient.use(async ({ next }) => {
     throw new ServerError("You must be logged in to perform this action");
   }
 
-  return next({ ctx: { userId: user.id, user } });
+  return next({ ctx: { userId: userId, user } });
 });

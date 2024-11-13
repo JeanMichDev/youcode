@@ -1,9 +1,9 @@
 import { Card, CardContent } from "@/components/ui/card";
 import { Typography } from "@/components/ui/Typography";
-import { UniqueCourse } from "./uniqueCourse.query";
+import { CourseType } from "./uniqueCourse.query";
 
 type LessonsItemProps = {
-  lessons: NonNullable<UniqueCourse>["lessons"];
+  lessons: NonNullable<CourseType>["lessons"];
   className?: string;
 };
 

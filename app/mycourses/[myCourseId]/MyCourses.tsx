@@ -3,7 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Typography } from "@/components/ui/Typography";
 import { MarkdownProse } from "@/features/mdx/MarkdownProse";
 import { CourseType } from "./my-course.query";
-import { MyLessonItem } from "./lessons/[lessonId]/MyLessonItem";
+import { LessonItem } from "./lessons/LessonItem";
 export type CourseProps = {
   course: CourseType;
 };
@@ -45,7 +45,7 @@ export const MyCourse = ({ course }: CourseProps) => {
             <p>No lessons published yet</p>
           ) : (
             course.lessons.map((lesson) => (
-              <MyLessonItem lesson={lesson} key={lesson.id} />
+              <LessonItem lesson={lesson} key={lesson.id} />
             ))
           )}
         </CardContent>
